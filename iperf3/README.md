@@ -21,7 +21,7 @@ You may adjust the iperf3 parameters to match the specific network performance c
 ## Running iperf3
 On the assumption that you are using minikube, we have included a script called `build-iperf.sh` which will make use of the `Dockerfile` contained within this folder, build it, and make it available to minikube.
 
-### Building FIO
+### Building iperf3
 ``` sh
 ./build-iperf.sh
 ```
@@ -41,7 +41,7 @@ kubectl apply -f iperf-job.yaml
 kubectl get job iperf3-client-job
 ```
 
-Once the Job has completed, you can also check the logs of the pod to see the output of the FIO command:
+Once the Job has completed, you can also check the logs of the pod to see the output of the iperf3 command:
 ### First find the pod name and save to an ENV VAR
 ``` sh
 POD_NAME=$(kubectl get pods -l job-name=iperf3-client-job -o jsonpath='{.items[0].metadata.name}')
