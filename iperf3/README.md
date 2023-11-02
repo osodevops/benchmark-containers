@@ -53,22 +53,7 @@ kubectl logs $POD_NAME
 ```
 After a successful run, you should see something like this:
 ``` sh
-➜ kubectl logs $POD_NAME
-Connecting to host iperf3-server, port 5201
-[  5] local 10.244.0.35 port 38914 connected to 10.102.33.39 port 5201
-[  7] local 10.244.0.35 port 38926 connected to 10.102.33.39 port 5201
-[  9] local 10.244.0.35 port 38932 connected to 10.102.33.39 port 5201
-[ 11] local 10.244.0.35 port 38948 connected to 10.102.33.39 port 5201
-[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
-[  5]   0.00-5.00   sec  10.4 GBytes  2137 MBytes/sec    0   1022 KBytes
-[  7]   0.00-5.00   sec  10.4 GBytes  2138 MBytes/sec  512    529 KBytes
-[  9]   0.00-5.00   sec  10.4 GBytes  2138 MBytes/sec   45    696 KBytes
-[ 11]   0.00-5.00   sec  10.4 GBytes  2137 MBytes/sec    0   1.08 MBytes
-[SUM]   0.00-5.00   sec  41.8 GBytes  8550 MBytes/sec  557
-- - - - - - - - - - - - - - - - - - - - - - - - -
-[  5]   5.00-10.00  sec  9.85 GBytes  2018 MBytes/sec    0   1022 KBytes
-[  7]   5.00-10.00  sec  9.86 GBytes  2018 MBytes/sec    0    529 KBytes
-➜  iperf3 git:(adding-deployment) ✗ kubectl logs $POD_NAME
+➜  kubectl logs $POD_NAME
 Connecting to host iperf3-server, port 5201
 [  5] local 10.244.0.35 port 38914 connected to 10.102.33.39 port 5201
 [  7] local 10.244.0.35 port 38926 connected to 10.102.33.39 port 5201
