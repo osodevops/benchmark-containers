@@ -1,34 +1,40 @@
-# benchmark-containers
-Benchmark container build files for a variety of cloud-native benchmarks.
+# Kubernetes Performance Testing by OSO
 
-## Fio container
-The FIO container ships release 3.36 of the Flexible IO tester.
-```shell
-$ docker build -t fio .
-$ docker run -it fio /bin/sh
+Welcome to the OSO Kubernetes Performance Testing repository. This resource hub is designed for network and storage performance benchmarking within Kubernetes environments. This repository features two key subdirectories that equip you with the tools to benchmark and analyze the network and storage performance in your cluster effectively:
 
-# Test sequential write bandwidth
-fio --name TEST --eta-newline=5s --filename=temp.file --rw=write --size=2g --io_size=10g --blocksize=1024k --ioengine=libaio --fsync=10000 --iodepth=32 --direct=1 --numjobs=1 --runtime=60 --group_reporting
+- [**iperf3**](iperf3/README.md): For network performance benchmarking, brought to you by OSO.
+- [**fio**](fio/README.md): For storage performance benchmarking, curated by OSO.
 
-# Test sequential read bandwidth
-fio --name TEST --eta-newline=5s --filename=temp.file --rw=read --size=2g --io_size=10g --blocksize=1024k --ioengine=libaio --fsync=10000 --iodepth=32 --direct=1 --numjobs=1 --runtime=60 --group_reporting
+## iperf3
 
+In the [iperf3 subdirectory](iperf3/README.md) holds the necessary tools and YAML configurations to deploy iperf3 as a robust network performance tool within your Kubernetes environment. Whether you need to maintain a continuous Deployment or execute a one-off Job, iperf3 is your solution for:
 
-# Test random read bandwidth & iops
-fio --name TEST --eta-newline=5s --filename=temp.file --rw=randread --size=2g --io_size=10g --blocksize=4k --ioengine=libaio --fsync=1 --iodepth=1 --direct=1 --numjobs=32 --runtime=60 --group_reporting
-```
+- Pinpointing and resolving network issues.
+- Validating the network performance of Kubernetes nodes.
+- Ensuring service level agreements (SLAs) for applications that are network performance-sensitive.
 
-## ipref3
-Testing Network capability
-```shell
-$ docker build -t iperf .
-$ docker run -it ipref /bin/sh
+## FIO
 
-# Do a network test to check what bandwidth looks like via iperf3 - this will give you an indication of the maximum network throughput between the client machine and the brokers.
+The [fio subdirectory](fio/README.md) contains a Dockerfile and Kubernetes Job YAML for deploying the Flexible I/O Tester (fio), a comprehensive storage benchmarking tool provided by OSO. The fio toolkit is essential for:
 
-# Server: 
-$ iperf3 -s -p 3002 -f m
+- Emulating diverse read/write operations.
+- Measuring IOPS (Input/Output Operations Per Second) effectively.
+- Gaining insight into the latency and throughput of various storage solutions within Kubernetes.
 
-#Client: 
-$ iperf3 -c localhost -p 3002 -t 60
-```
+## Why OSO Recommends Performance Testing in Kubernetes
+
+OSO champions performance testing in Kubernetes because:
+
+1. **Dynamic Environments**: Kubernetes clusters are highly dynamic, making regular performance benchmarking a necessity for maintaining expected service levels.
+   
+2. **Resource Allocation**: Understanding your infrastructure's capabilities ensures efficient resource allocation, as provided by OSO's tools, avoiding wastage or shortfalls.
+   
+3. **Troubleshooting**: OSO's tools help in identifying and diagnosing performance bottlenecks, crucial for the seamless operation of your applications.
+   
+4. **Baseline Performance**: Establishing and tracking performance baselines, as facilitated by these tools, is critical for detecting irregularities and assessing the impact of infrastructure changes.
+
+OSO invites you to delve into the subdirectories, utilize the tools, and join us in enhancing these benchmarking resources for Kubernetes.
+
+---
+
+*Note: This README offers an overview. For detailed instructions and tool usage, please consult the individual READMEs within the respective subdirectories.*

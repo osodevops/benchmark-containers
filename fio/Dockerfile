@@ -1,22 +1,35 @@
-FROM alpine as builder
-WORKDIR /fio
-ENV FIO_VER=3.36
-ADD https://github.com/axboe/fio/archive/fio-${FIO_VER}.tar.gz .
-RUN apk add --update alpine-sdk libaio-dev zlib-dev linux-headers coreutils
-RUN tar xzf fio-${FIO_VER}.tar.gz && \
-    cd fio-fio-${FIO_VER} && \
-    ./configure && \
-    make -j && \
-    strip fio && \
-    mv fio /fio/
+# Use Alpine Linux as the base image
+FROM alpine:latest
 
+# Install build dependencies
+RUN apk add --no-cache \
+    gcc \
+    libc-dev \
+    make \
+    git \
+    linux-headers \
+    libaio-dev \
+    zlib-dev \
+    util-linux-dev \
+    coreutils \
+    perl \
+    bash \
+    && git clone https://github.com/axboe/fio.git /tmp/fio \
+    && cd /tmp/fio \
+    && ./configure \
+    && make \
+    && make install \
+    # Clean up build dependencies and temp files
+    && apk del \
+    gcc \
+    libc-dev \
+    make \
+    git \
+    linux-headers \
+    zlib-dev \
+    util-linux-dev \
+    coreutils \
+    && rm -rf /var/cache/apk/* /tmp/fio
 
-FROM alpine
-MAINTAINER Sion Smith
-# dstat
-RUN apk add --update --no-cache py3-six
-COPY --from=dstat-builder /dstat/dstat /usr/local/bin
-COPY --from=dstat-builder /dstat/plugins /usr/local/bin/
-# fio
-RUN apk add --update --no-cache util-linux libaio zlib so:libgcc_s.so.1
-COPY --from=builder /fio/fio /usr/local/bin
+# Set an entrypoint for the fio command
+ENTRYPOINT ["fio"]

@@ -1,20 +1,12 @@
-FROM alpine as builder
-WORKDIR /usr/src/iperf
-ENV IPERF_VER=3.15
-ADD  https://github.com/esnet/iperf/archive/${IPERF_VER}.tar.gz .
-RUN apk add --update alpine-sdk libtool autoconf automake openssl-dev
-RUN tar xzf ${IPERF_VER}.tar.gz && \
-    cd iperf-${IPERF_VER} && \
-    ./bootstrap.sh && \
-    ./configure --disable-profiling && \
-    make -j install DESTDIR=/iperf3
+# Use the official Alpine image as a base
+FROM alpine:latest
 
-FROM alpine
-MAINTAINER Sion Smith
+# Install iperf3
+RUN apk add --no-cache iperf3
 
-# iperf3
-RUN apk add --update --no-cache openssl
-COPY --from=builder /iperf3/ /
+# Expose the default iperf3 server port
+EXPOSE 5201
 
-# The benchmark uses jq to parse the JSON output
-RUN apk add --update --no-cache jq
+# Run iperf3 server by default
+ENTRYPOINT ["iperf3"]
+CMD ["-s"]

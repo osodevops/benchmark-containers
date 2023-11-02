@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: fio
+    spec:
+      containers:
+      - name: fio
+        image: oso-fio:latest
+        imagePullPolicy: IfNotPresent
+        args:
+        - "--name=randwrite"
+        - "--ioengine=libaio"
+        - "--iodepth=16"
+        - "--rw=randwrite"
+        - "--bs=4k"
+        - "--direct=1"
+        - "--size=1G"
+        - "--numjobs=4"
+        - "--runtime=60"
+        - "--group_reporting"
+        volumeMounts:
+        - mountPath: "/test"
+          name: fio-volume
+      restartPolicy: Never
+      volumes:
+      - name: fio-volume
+        persistentVolumeClaim:
+          claimName: fio-pvc
+  backoffLimit: 0
+

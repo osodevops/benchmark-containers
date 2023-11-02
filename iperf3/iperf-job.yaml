@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: iperf3-client-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: iperf3
+        image: oso-iperf3:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+#        command: ["tail", "-f", "/dev/null"]
+        args: [ "iperf3 -c iperf3-server -p 5201 -t 60 -i 5 -f M -P 4" ]
+      restartPolicy: Never
+
+
